@@ -26,14 +26,15 @@ public class TaskController : MonoBehaviour
     private TextMeshProUGUI _instructionTextComponent;
 
     private int _currentTaskIndex = 0;
+    private int _previousTaskIndex = -1;
     private int _currentTaskStep = 0;
+    private int _previousTaskStep = -1;
 
     private List<Task> _taskList;
     
     private void Start()
     {
         _taskList = InitTaskList();
-
         _headerTextComponent = headerTextObject.GetComponent<TextMeshProUGUI>();
         _instructionTextComponent = instructionTextObject.GetComponent<TextMeshProUGUI>();
     }
@@ -41,7 +42,20 @@ public class TaskController : MonoBehaviour
     private void Update()
     {
         SetKeyBoardListener();
-        SetTaskText();
+
+        if (_previousTaskIndex == _currentTaskIndex)
+        {
+            if (_previousTaskStep == _currentTaskStep) return;
+            HandleTasks();
+            _previousTaskStep = _currentTaskStep;
+        }
+        else
+        {
+            _currentTaskStep = 0;
+            SetTaskText();
+            HandleTasks();
+            _previousTaskIndex = _currentTaskIndex;
+        }
     }
     
     private static List<Task> InitTaskList()
@@ -50,8 +64,7 @@ public class TaskController : MonoBehaviour
         {
             new("Task 1", "Instruction for task 1"),
             new("Task 2", "Instruction for task 2"),
-            new("Task 3", "Instruction for task 3"),
-            new("Task 4", "Instruction for task 4")
+            new("Task 3", "Instruction for task 3")
         };
         return list;
     }
@@ -87,10 +100,8 @@ public class TaskController : MonoBehaviour
         }
     }
 
-    private void SetCurrentTaskIndex(int index, bool resetStep = true)
+    private void SetCurrentTaskIndex(int index)
     {
-        if (resetStep) _currentTaskStep = 0;
-
         if (index > _taskList.Count - 1)
             _currentTaskIndex = _taskList.Count - 1;
         else if (index < 0)
@@ -102,5 +113,34 @@ public class TaskController : MonoBehaviour
     {
         _headerTextComponent.text = _taskList[_currentTaskIndex].Header;
         _instructionTextComponent.text = _taskList[_currentTaskIndex].Instruction;
+    }
+
+    private void HandleTasks()
+    {
+        switch (_currentTaskIndex)
+        {
+            case 0:
+                HandleTaskOne();
+                break;
+            case 1:
+                HandleTaskTwo();
+                break;
+            case 2:
+                HandleTaskThree();
+                break;
+        }
+    }
+
+    private void HandleTaskOne()
+    {
+        
+    }
+    private void HandleTaskTwo()
+    {
+        
+    }
+    private void HandleTaskThree()
+    {
+        
     }
 }
