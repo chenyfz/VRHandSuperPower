@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 internal class Task
@@ -25,6 +24,11 @@ public class TaskController : MonoBehaviour
     public GameObject instructionTextObject;
     private TextMeshProUGUI _instructionTextComponent;
 
+    private Transform _panelObject;
+
+    public GameObject taskOnePrefab;
+    private GameObject _taskOneObject;
+
     private int _currentTaskIndex = 0;
     private int _previousTaskIndex = -1;
     private int _currentTaskStep = 0;
@@ -37,6 +41,7 @@ public class TaskController : MonoBehaviour
         _taskList = InitTaskList();
         _headerTextComponent = headerTextObject.GetComponent<TextMeshProUGUI>();
         _instructionTextComponent = instructionTextObject.GetComponent<TextMeshProUGUI>();
+        _panelObject = headerTextObject.transform.parent;
     }
 
     private void Update()
@@ -117,6 +122,7 @@ public class TaskController : MonoBehaviour
 
     private void HandleTasks()
     {
+        ResetTasks();
         switch (_currentTaskIndex)
         {
             case 0:
@@ -133,7 +139,18 @@ public class TaskController : MonoBehaviour
 
     private void HandleTaskOne()
     {
+        _taskOneObject = Instantiate(taskOnePrefab, _panelObject);
         
+        // step 1
+        if (_currentTaskStep % 2 == 0)
+        {
+            
+        }
+        // step 2
+        else
+        {
+            
+        }
     }
     private void HandleTaskTwo()
     {
@@ -142,5 +159,10 @@ public class TaskController : MonoBehaviour
     private void HandleTaskThree()
     {
         
+    }
+
+    private void ResetTasks()
+    {
+        if (_taskOneObject is not null) Destroy(_taskOneObject);
     }
 }
