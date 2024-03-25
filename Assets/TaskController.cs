@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 internal class Task
 {
@@ -140,18 +141,27 @@ public class TaskController : MonoBehaviour
     private void HandleTaskOne()
     {
         _taskOneObject = Instantiate(taskOnePrefab, _panelObject);
-        
+
+        var setColorToTaskOneElements = new Action<int, Color>((i, color) =>
+        {
+            _taskOneObject.transform.GetChild(i).GetComponent<Image>().color = color;
+        });
+
+
         // step 1
         if (_currentTaskStep % 2 == 0)
         {
-            
+            setColorToTaskOneElements(0, new Color(1, 0.2f, 0.2f));
+            setColorToTaskOneElements(1, Color.white);
         }
         // step 2
         else
         {
-            
+            setColorToTaskOneElements(1, new Color(1, 0.2f, 0.2f));
+            setColorToTaskOneElements(0, Color.white);
         }
     }
+    
     private void HandleTaskTwo()
     {
         
