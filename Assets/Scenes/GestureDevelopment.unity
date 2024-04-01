@@ -147,8 +147,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hand: {fileID: 1576454933}
   root: {fileID: 523370267}
-  centerEyeAnchor: {fileID: 1044532595}
+  centerEyeAnchor: {fileID: 615611054}
+  ghostHand: {fileID: 518093427}
   header: {fileID: 5275844621215636968}
+  collider: {fileID: 3090228010062728168}
 --- !u!1 &198478381
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +677,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 61912369}
   m_SourcePrefab: {fileID: 100100000, guid: 34a22dd67c1e5344591237fdd61e78ec, type: 3}
+--- !u!1 &518093427 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1678554350610931686, guid: 34a22dd67c1e5344591237fdd61e78ec, type: 3}
+  m_PrefabInstance: {fileID: 481183703}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &523370267
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,6 +714,11 @@ Transform:
   - {fileID: 61912367}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &615611054 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1970769376806331313, guid: f54012181eacade4ea242c65f804720f, type: 3}
+  m_PrefabInstance: {fileID: 1528912953}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &653026276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,32 +1645,6 @@ Transform:
   - {fileID: 1107834106}
   m_Father: {fileID: 696788450}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &946220598 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4079988391034245732, guid: 3925a8db7d2ff834f8485d72b7dd6701, type: 3}
-  m_PrefabInstance: {fileID: 1775513635}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &946220602
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946220598}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.8624423, y: 0.85312957, z: 1.0191718}
-  m_Center: {x: -0.037038356, y: -0.01033107, z: 0.5095859}
 --- !u!1 &983995946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1793,11 +1779,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 983995946}
   m_CullTransparentMesh: 1
---- !u!4 &1044532595 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2483171112402263008, guid: f54012181eacade4ea242c65f804720f, type: 3}
-  m_PrefabInstance: {fileID: 1528912953}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1107834106 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4658904325700070051, guid: 633677e3089b41b40acda7f29811eb9d, type: 3}
@@ -2573,9 +2554,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8771367416863697963, guid: 3925a8db7d2ff834f8485d72b7dd6701, type: 3}
       insertIndex: -1
       addedObject: {fileID: 368855525}
-    - targetCorrespondingSourceObject: {fileID: 4079988391034245732, guid: 3925a8db7d2ff834f8485d72b7dd6701, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 946220602}
   m_SourcePrefab: {fileID: 100100000, guid: 3925a8db7d2ff834f8485d72b7dd6701, type: 3}
 --- !u!4 &1775513637 stripped
 Transform:
@@ -3641,7 +3619,6 @@ GameObject:
   - component: {fileID: 7268897200296618188}
   - component: {fileID: 1791123409566622468}
   - component: {fileID: 7176187020683202264}
-  - component: {fileID: 7268897200296618189}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -4631,27 +4608,6 @@ MonoBehaviour:
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 0}
   _canvas: {fileID: 6955723100384680777}
---- !u!65 &7268897200296618189
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2904843610537746102}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3.4213088, y: 2.1304545, z: 0.122583866}
-  m_Center: {x: 0.33668435, y: -0.36185545, z: 0.43870807}
 --- !u!4 &7556045134737268078
 Transform:
   m_ObjectHideFlags: 0

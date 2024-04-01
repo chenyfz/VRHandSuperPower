@@ -13,7 +13,7 @@ public class RightGhostHandPositionController : MonoBehaviour
     public Hand hand;
     public GameObject root;
     public Transform centerEyeAnchor;
-    public GameObject header;
+    public GameObject ghostHand;
     
     
     // Start is called before the first frame update
@@ -29,43 +29,25 @@ public class RightGhostHandPositionController : MonoBehaviour
         
         root.transform.rotation = handRootPose.rotation;
 
-        if (CalcHandPosition(out var position))
-        {
-            root.transform.position = position;
-            ShowHand();
-        }
-        else
-        {
-            HideHand();
-        }
+        CalcHandPosition(out var position);
+        root.transform.position = position;
+
     }
 
     private bool CalcHandPosition(out Vector3 position)
     {
-        hand.GetJointPose(HandJointId.HandIndexTip, out var pose);
-        var indexTipPosition = pose.position;
+        hand.GetJointPose(HandJointId.HandIndex1, out var jointPose);
+        hand.GetRootPose(out var handRootPose);
         var centerEyePosition = centerEyeAnchor.position;
+
+        var direction = jointPose.position - centerEyePosition;
+        var centerEyeRay = new Ray(jointPose.position + direction, direction);
+        var isHit = Physics.Raycast(centerEyeRay, out var centerRaycastHit, 200);
+
+        position = isHit ? new Vector3(centerRaycastHit.point.x, centerRaycastHit.point.y, centerRaycastHit.point.z - 0.1f) : new Vector3(0, 0, -1);
         
-        var centerEyeRay = new Ray(centerEyePosition, indexTipPosition);
-        Physics.Raycast(centerEyeRay, out var centerRaycastHit);
+        // header.transform.GetComponent<TextMeshProUGUI>().text = centerRaycastHit.colliderInstanceID + " ";
 
-        position = new Vector3(centerRaycastHit.point.x, centerEyeAnchor.position.y, centerRaycastHit.point.z);
-
-        var isHit = centerRaycastHit.colliderInstanceID != 0;
-        if (isHit)
-        {
-            header.transform.GetComponent<TextMeshProUGUI>().text = centerRaycastHit.point + " ";
-        }
         return isHit;
-    }
-
-    private void HideHand()
-    {
-        if (root.activeSelf) root.SetActive(false);
-    }
-
-    private void ShowHand()
-    {
-        if (!root.activeSelf) root.SetActive(true);
     }
 }
