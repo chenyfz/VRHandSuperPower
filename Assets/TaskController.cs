@@ -87,8 +87,8 @@ public class TaskController : MonoBehaviour
     {
         var list = new List<Task>
         {
-            new("Task 1: Large Blocks", "Please activate the yellow block."),
-            new("Task 2: Small Blocks", "Please activate the yellow block."),
+            new("Task 1: Large Blocks", "Please activate the red block."),
+            new("Task 2: Small Blocks", "Please activate the red block."),
             new("Task 3: Slider", "Please adjust the slider to about 75%"),
             new("Task 4: Browsing" , "This is a document. Please position the yellow paragraph to the top area of the screen"),
             new("Task 5: Enlarge the screen", "Enlarge the screen twice as large as now and then reduce it to original size"),
