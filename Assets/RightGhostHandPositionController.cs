@@ -15,12 +15,12 @@ public class RightGhostHandPositionController : MonoBehaviour
 
     public List<Material> moreTransparentShaders;
     public List<Material> originalShaders;
-    
-    public bool isRightHand = true;
-    
+
+    private SkinnedMeshRenderer _renderer;
     
     void Start()
     {
+        _renderer = handSynthetic.transform.GetComponentInChildren<SkinnedMeshRenderer>();
     }
 
     private void Update()
@@ -31,17 +31,15 @@ public class RightGhostHandPositionController : MonoBehaviour
 
         var isHit = CalcHandPosition(out var position);
         root.transform.position = position;
-
-        handSynthetic.transform.GetComponentInChildren<SkinnedMeshRenderer>()
-            .SetMaterials(isHit ? moreTransparentShaders : originalShaders);
+        
+        _renderer.SetMaterials(isHit ? moreTransparentShaders : originalShaders);
     }
 
     private bool CalcHandPosition(out Vector3 position)
     {
-        hand.GetJointPose(HandJointId.HandWristRoot, out var jointPose);
-        var handPosition = isRightHand
-                ? jointPose.position + new Vector3(-0.1f, 0.15f, 0)
-                : jointPose.position + new Vector3(0.1f, 0.15f, 0);
+        hand.GetJointPose(HandJointId.HandWristRoot, out var wristPose);
+        hand.GetJointPose(HandJointId.HandMiddle1, out var middlePose);
+        var handPosition = new Vector3(middlePose.position.x, middlePose.position.y, wristPose.position.z) + new Vector3(-0.04f, 0.04f, 0);
         var centerEyePosition = centerEyeAnchor.position;
 
         var direction = handPosition - centerEyePosition;
@@ -49,7 +47,7 @@ public class RightGhostHandPositionController : MonoBehaviour
         var isHit = Physics.Raycast(centerEyeRay, out var centerRaycastHit, 200);
 
         position = isHit
-            ? new Vector3(centerRaycastHit.point.x, centerRaycastHit.point.y, centerRaycastHit.point.z - 0.05f)
+            ? centerRaycastHit.point + new Vector3(0, 0, -0.08f)
             : new Vector3(0, -1, 0);
         
         return isHit;

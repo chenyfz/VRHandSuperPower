@@ -28,7 +28,7 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _Opacity: 0.2
-    - _OutlineOpacity: 0.25
+    - _Opacity: 0.15
+    - _OutlineOpacity: 0.2
     m_Colors: []
   m_BuildTextureStacks: []
