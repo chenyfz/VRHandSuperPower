@@ -1,18 +1,47 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Oculus.Interaction;
 using UnityEngine;
 
 public class ModeController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<GameObject> interactors;
+    public GameObject handRoot;
+    public GameObject handVisual;
+
+    private void Start()
     {
-        
+        SetToNativeMode();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetToNativeMode()
     {
-        
+        SetInterators(true);
+        handRoot.SetActive(false);
+    }
+
+    public void SetToDistanceTapMode()
+    {
+        SetInterators(false);
+        handRoot.SetActive(true);
+        handVisual.GetComponent<GhostHandTapController>().enabled = true;
+        handVisual.GetComponent<GhostHandPinchController>().enabled = false;
+    }
+
+    public void SetToDistancePinchMode()
+    {
+        SetInterators(false);
+        handRoot.SetActive(true);
+        handVisual.GetComponent<GhostHandTapController>().enabled = false;
+        handVisual.GetComponent<GhostHandPinchController>().enabled = true;
+    }
+
+    private void SetInterators(bool value)
+    {
+        foreach (var interactor in interactors)
+        {
+            interactor.SetActive(value);
+        }
     }
 }

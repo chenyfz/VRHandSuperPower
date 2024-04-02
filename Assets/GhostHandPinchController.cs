@@ -1,12 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Oculus.Interaction;
 using Oculus.Interaction.Input;
 using Unity.VisualScripting;
 using UnityEngine;
-
-public class GhostHandTapController : MonoBehaviour
+public class GhostHandPinchController : MonoBehaviour
 {
     public Hand hand;
     public Hand handSynthetic;
@@ -18,9 +16,7 @@ public class GhostHandTapController : MonoBehaviour
     public List<Material> originalShaders;
 
     private SkinnedMeshRenderer _renderer;
-    private float _indexZTracking;
-    private bool _isMovedForward;
-    private long _lastIndexZTrackingTime;
+    private float _saveDistance = 0.3f;
     
     void Start()
     {
@@ -58,10 +54,8 @@ public class GhostHandTapController : MonoBehaviour
             position = new Vector3(0, -1, 0);
             return false;
         }
-
-        CalcActiveState();
         
-        if (_isMovedForward)
+        if (IsPinched())
             position = centerRaycastHit.point + new Vector3(0, 0, indexFingerTouchedZ + 0.01f);
         else
             position = centerRaycastHit.point + new Vector3(0, 0, indexFingerTouchedZ - 0.03f);
@@ -69,26 +63,11 @@ public class GhostHandTapController : MonoBehaviour
         return true;
     }
 
-    private void CalcActiveState()
+    private bool IsPinched()
     {
-        GetTime(out var currentTime);
-        if (currentTime - _lastIndexZTrackingTime < 200) return;
+        hand.GetJointPose(HandJointId.HandIndexTip, out var indexTipPos);
+        hand.GetJointPose(HandJointId.HandThumbTip, out var thumbTipPos);
 
-        hand.GetJointPose(HandJointId.HandIndexTip, out var indexTipPose);
-        var z = indexTipPose.position.z;
-        _isMovedForward = (z - _indexZTracking) switch
-        {
-            > 0.02f => true,
-            < -0.01f => false,
-            _ => _isMovedForward
-        };
-
-        _lastIndexZTrackingTime = currentTime;
-        _indexZTracking = z;
-    }
-
-    private static void GetTime(out long currentTime)
-    {
-        currentTime = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+        return (indexTipPos.position-thumbTipPos.position).magnitude < 0.02f;
     }
 }
